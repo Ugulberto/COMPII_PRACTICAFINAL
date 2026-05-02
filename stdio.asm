@@ -13,7 +13,7 @@ teclado  .equ    0xFF02
 .globl  inputStr
 .globl	printInt
 .globl  printHex
-.globl  inputAlphanum
+.globl  inputnAlphanum
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Función printStr: imprime una cadena por pantalla                                                                     ;
@@ -130,41 +130,56 @@ is_alphanum:
 	    rts                     ; devuelve B = 1
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Función inputAlphanum: lee la cadena de entrada hasta llegar a un salto de línea, o hasta     ;
+; Función inputnAlphanum: lee la cadena de entrada hasta llegar a un salto de línea, o hasta    ;
 ; llegar a un caracter no alfanumerico de lo cual se informara con un valor de retorno en B.    ;
-; Entrada: se debe cargar en el registro x la dirección de inicio de la cadena donde cargarlo.  ;
-; Salida: Se cargará 0 en B si se salió del bucle por llegar a un salto de línea o 1 si se      ;
-; salio por haberse introducido un caracter NO alfanumerico.                                    ;
+; limitando su tamanio a un máximo de caracteres.                                               ;
+; Entrada: se debe cargar en el registro x la dirección de inicio de la cadena donde cargarlo,  ;
+; y en el registro B el tamanio máximo de la cadena.                                            ;
+; Salida: Se cargará 0 en B si se salió del bucle por llegar a un salto de línea, 1 si se       ;
+; salio por haberse introducido un caracter NO alfanumerico y 2 si se salio por haber           ;
+; llegado al tamanio maximo.                                                                    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-inputAlphanum:
+inputnAlphanum:
 	pshs	a,x
 	
-    inputAlphanum_bucle:
+    inputnAlphanum_bucle:
         lda     teclado
 
         cmpa    #'\n
-        beq     inputAlphanum_fin_0
+        beq     inputnAlphanum_fin_0
 
         cmpa    #' 
-        beq     inputAlphanum_seguir
+        beq     inputnAlphanum_seguir
 
+        pshs    b                           ; encapsulo b pues contiene el máximo de caracteres
         jsr     is_alphanum
         cmpb    #0
-        beq     inputAlphanum_fin_1
+        beq     inputnAlphanum_fin_1
+        puls    b
 
-        inputAlphanum_seguir:
+        inputnAlphanum_seguir:
             sta     ,x+
-            bra     inputAlphanum_bucle
 
-    inputAlphanum_fin_0:
+            decb                            ; se ha leído un caracter
+            tstb                            
+            beq     inputnAlphanum_fin_2    ; se comprueba si se ha alcanzado el máximo
+
+            bra     inputnAlphanum_bucle
+
+    inputnAlphanum_fin_0:
         ldb     #0
-        bra     inputAlphanum_fin
+        bra     inputnAlphanum_fin
     
-    inputAlphanum_fin_1:
+    inputnAlphanum_fin_1:
+        puls    b                           ; vengo de una zona que estaba encapsulada
         ldb     #1
+        bra     inputnAlphanum_fin
+    
+    inputnAlphanum_fin_2:
+        ldb     #2
 
-    inputAlphanum_fin:
+    inputnAlphanum_fin:
         lda     #'\0
         sta     ,x+
         puls    a,x

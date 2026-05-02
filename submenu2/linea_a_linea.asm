@@ -9,12 +9,12 @@ teclado     .equ    0xFF02
     .globl      printBreak
     .globl      printStr
     .globl      char_a_morse
-    .globl      inputAlphanum
+    .globl      inputnAlphanum
 
 mensaje_inicio:     .asciz  "2.3) Texto a MORSE (Linea a Linea):"
-cadena_introducida: .rmb    80
+cadena_introducida: .rmb    81
 max_tam:            .byte   #80
-
+mensaje_max_tam:    .asciz  "\nSe ha excedido el maximo de caracteres (80) y se ha cortado la entrada.\n"
 
 linea_a_linea2:
     pshs    a,b,x,y
@@ -25,13 +25,26 @@ linea_a_linea2:
 
 bucle_linea_a_linea:
     ldx     #cadena_introducida ; inputAlphanum suele esperar el destino en X
-    jsr     inputAlphanum       ; B=0 si OK (\n), B=1 si error (no alfanum)
+    ldb     max_tam             ; tamanio maximo de la cadena de entrada
+    jsr     inputnAlphanum       ; B=0 si OK (\n), B=1 si error (no alfanum)
 
     ; Si el usuario introduce algo no alfanumérico, salimos
     cmpb    #1
     beq     salir_linea_a_linea
+
+    ; Si se llego al maximo de caracteres, lo informamos
+    cmpb    #2
+    beq     bucle_imprimir_caracteres_maxtam
     
     ; Preparamos Y para recorrer la cadena que acabamos de leer
+    ldy     #cadena_introducida
+    bra     bucle_imprimir_caracteres
+
+bucle_imprimir_caracteres_maxtam:
+    pshs    x
+    ldx     #mensaje_max_tam
+    jsr     printStr
+    puls    x
     ldy     #cadena_introducida
 
 bucle_imprimir_caracteres:

@@ -1,24 +1,26 @@
-.module     palabra_a_palabra2
+.module         palabra_a_palabra2
 
-pantalla    .equ    0xFF00
-fin         .equ    0xFF01
-teclado     .equ    0xFF02
+pantalla        .equ    0xFF00
+fin             .equ    0xFF01
+teclado         .equ    0xFF02
 
-    .globl      palabra_a_palabra2
-    .globl      printnStr
-    .globl      printBreak
-    .globl      printStr
-    .globl      printHex
-    .globl      chars_table
-	.globl		chars_table_Total
-    .globl      tabla_morse
-    .globl      strcmp
-    .globl      is_alphanum
-    .globl      char_a_morse
+.globl      palabra_a_palabra2
+.globl      printnStr
+.globl      printBreak
+.globl      printStr
+.globl      printHex
+.globl      chars_table
+.globl		chars_table_Total
+.globl      tabla_morse
+.globl      strcmp
+.globl      is_alphanum
+.globl      char_a_morse
+.globl      printInt
 
 mensaje_inicio:     .asciz  "2.2) Texto a MORSE (Palabra a Palabra):"
-cadena_introducida: .rmb    80
+cadena_introducida: .rmb    81
 max_tam:            .byte   #80
+mensaje_max_tam:    .asciz  "\nSe ha excedido el maximo de caracteres (80) y se ha cortado la entrada."
 
 palabra_a_palabra2:
     pshs    a,b,x,y
@@ -30,6 +32,7 @@ palabra_a_palabra2:
 bucle_palabra_a_palabrabr:
     jsr     printBreak
     ldx     #cadena_introducida     ; direccion de la cadena a introducir
+    ldb     max_tam                 ; tamanio maximo de la cadena a introducir
 bucle_palabra_a_palabra:
     lda     teclado
 
@@ -39,13 +42,23 @@ bucle_palabra_a_palabra:
     cmpa    #'\n
     beq     imprimir_caracteres_palabra_a_palabra
 
+    pshs    b
     jsr     is_alphanum
-    cmpb    #0
+    tstb
     beq     salir_palabra_a_palabra
+    puls    b
 
     sta     ,x+
+    decb
+    cmpb    #0
+    beq     imprimir_caracteres_palabra_a_palabratam
     bra     bucle_palabra_a_palabra
-    
+
+imprimir_caracteres_palabra_a_palabratam: ; esto se ejecuta si se ha superado el maximo de caracteres
+    pshs    x
+    ldx     #mensaje_max_tam
+    jsr     printStr
+    puls    x
 imprimir_caracteres_palabra_a_palabrabr:
     jsr     printBreak
 imprimir_caracteres_palabra_a_palabra:
@@ -71,5 +84,6 @@ bucle_imprimir_caracteres:
 
 
 salir_palabra_a_palabra:
+    puls    b           ; cuando salgo del bucle el registro b había sido encapsulado ya
     puls    a,b,x,y
     rts
