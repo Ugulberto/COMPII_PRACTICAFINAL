@@ -26,6 +26,10 @@ teclado 	.equ 	0xFF02
 	.globl	palabra_a_palabra2
 	.globl	linea_a_linea2
 
+	.globl  caracter_a_caracter3
+	.globl	palabra_a_palabra3
+	.globl	linea_a_linea3
+
 menu0:		
 		.ascii	"\nPractica MORSE\n"
       	.ascii  "\n Menu DE OPCIONES:\n" 
@@ -43,13 +47,6 @@ menu0:
 ; el tipo de error), facilita la realización del programa, de manera que si ;
 ; devuelve un OK se busca la cadena y caso contrario, se muestra el error   ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; teacher's tip 2:																			;
-; La opción 2 a partir del código ASCII leído es fácil calcular el índice en la tabla.		;
-; ‘A es el 0, la ‘Z el 25, el ‘0 el 26 y el ‘9 el 35. Sabiendo la longitud de cada cadena	;
-; (6) es fácil colocarse en la posición inicial del código morse correspondiente. 			;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 menu2:
           .ascii "\nTexto a MORSE\n"
@@ -77,22 +74,10 @@ menu3:
           .ascii "V/v) Volver\n"
           .asciz " >> Elige: "
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; me faltan de hacer un par de cosinas:                       ;
-;    - meter que los submenús sean cíclicos                   ;
-;    - hacer los submenús 2.:1,2,3  y  3.:1,2,3               ;
-;    - lo que he hecho con submenu1 es ridículo, sí, pero es  ;
-;        un placeholder, lo que tengo que ver es como hacer   ;
-;        para que lo pille directamente de morse_table.asm    ;
-;    - terminar de indicar los teacher's tips                 ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 incorrecta: 	.asciz "Opcion incorrecta!"
 	
-		
 programa:
 
-		
 nucleo:		
     ldx		#menu0
 	jsr 	printStr
@@ -158,12 +143,43 @@ lin_a_lin2:
 	bra 	submenu2
 
 
-mostrar_submenu3:	
-	ldx #menu3		; SALTO A LA SUBRUTINA DEL SUBMENÚ 3
-	jsr printStr
+submenu3:	
+	ldx		#menu3		; SALTO A LA SUBRUTINA DEL SUBMENÚ 3
+	jsr 	printStr
 
-exe_submenu3:	
-	bra nucleo
+	; Opcion del menu
+	lda		teclado
+	jsr		printBreak
+	
+	cmpa	#'1
+	beq		char_a_char3
+	cmpa	#'2
+	beq		pal_a_pal3
+	cmpa	#'3
+	beq		lin_a_lin3
+
+	anda	#223 ; convierte a mayusculas
+	
+	cmpa	#'V
+	beq		nucleo
+
+	ldx		#incorrecta
+	jsr		printStr
+
+	beq		submenu3
+	
+
+char_a_char3:
+	jsr 	caracter_a_caracter3
+	bra 	submenu3
+
+pal_a_pal3:
+	jsr 	palabra_a_palabra3
+	bra 	submenu3
+
+lin_a_lin3:
+	jsr 	linea_a_linea3
+	bra 	submenu3
 
 		
 		; el programa acaba
