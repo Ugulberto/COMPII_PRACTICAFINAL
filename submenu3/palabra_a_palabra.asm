@@ -46,7 +46,7 @@ bucle_palabra_a_palabra:
     lbeq    error_ilegal                ; B=1: Caracter prohibido
 
     cmpb    #2
-    beq     chequear_fin_de_palabra     ; B=2: Separador o fin de linea
+    lbeq    chequear_fin_de_palabra     ; B=2: Separador o fin de linea
 
     cmpb    #3
     lbeq    error_longitud_real         ; B=3: Mas de 5 puntos/rayas
@@ -95,7 +95,6 @@ imprimir_y_salir:
     jsr     printStr
     lbra    salir_palabra_a_palabra
 
-
 ; CODIGOS DE ERROR
 
 limite_maximo_alcanzado:
@@ -111,38 +110,26 @@ limite_maximo_alcanzado:
 
 error_invalido:
     puls    a                           ; Limpiar stack
-    clr     ,y
     ldx     #mensaje_invalido
     jsr     printStr
     jsr     printBreak
-    ldx     #traduccion
-    jsr     printStr
-    jsr     printBreak
-    bra     salir_palabra_a_palabra
+    bra     imprimir_y_salir
 
 error_longitud_real:
-    clr     ,y
     lda     #' 
     sta     pantalla
     ldx     #mensaje_longitud
     jsr     printStr
-    ldx     #traduccion
     jsr     printBreak
-    jsr     printStr
-    jsr     printBreak
-    bra     salir_palabra_a_palabra
+    bra     imprimir_y_salir
 
 error_ilegal:
-    clr     ,y
     lda     #' 
     sta     pantalla
     ldx     #mensaje_ilegal
     jsr     printStr
-    ldx     #traduccion
     jsr     printBreak
-    jsr     printStr
-    jsr     printBreak
-    bra     salir_palabra_a_palabra
+    bra     imprimir_y_salir
 
 salir_palabra_a_palabra:
     puls    a,b,x,y                     ; Restauramos registros

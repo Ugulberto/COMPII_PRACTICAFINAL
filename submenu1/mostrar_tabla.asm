@@ -36,9 +36,10 @@ mostrar_tabla:
     bucle_tabla:
         pshs b
 
+        lda     ,y+
+        sta     pantalla
+
         pshs    x
-        tfr     y,x
-        jsr     printnStr
         ldx     #flecha
         jsr     printStr
         puls    x
@@ -49,7 +50,6 @@ mostrar_tabla:
 
         puls b
         leax 6,x     ; avanzar a la siguiente cadena
-        leay 2,y
 
         decb
         bne bucle_tabla

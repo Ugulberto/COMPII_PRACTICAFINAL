@@ -50,7 +50,10 @@ bucle_cac3:
     sta     pantalla
     lda     #'>
     sta     pantalla
-    jsr     printStr
+
+    lda     ,x
+    sta     pantalla
+    
     jsr     printBreak
     bra     bucle_cac3
 

@@ -45,7 +45,7 @@ char_a_morse:
 	    cmpa    ,x                  ; Compara A con el carácter en la tabla
 	    beq     encontrado_char_a_morse      
 	
-	    leax    2,x                 ; SALTAMOS 2 BYTES (Letra + Nulo de .asciz)
+	    leax    1,x                 ; SALTAMOS 1 BYTE 
 	    incb                        ; Siguiente índice
 	    cmpb    chars_table_Total   ; Fin de la tabla
 	    blt     buscar_idx_char_a_morse
@@ -108,8 +108,7 @@ buscar_morse_a_char:
 
 fin_buscar_morse_a_char:
 	puls	b				; venia de codigo encapsulado
-	lda		#2				;2 bytes por cada string de la primera lista
-	mul						; numero de direcciones a sumar a la de inicio de chars_table
+	lda		#0				; a podia contener cualquier cosa
 	addd	#chars_table
 	tfr		d,x
 

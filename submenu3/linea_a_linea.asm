@@ -100,6 +100,12 @@ imprimir_y_seguir:
     ldy     #traduccion                 ; vuelvo a escribir para no acumular entre llamadas
     lbra    bucle_linea
 
+imprimir_y_salir:
+    clr     ,y                          ; Terminador nulo
+    ldx     #traduccion
+    jsr     printStr
+    lbra    salir_linea
+
 ; --- CODIGOS DE ERROR ---
 limite_maximo_alcanzado_a:
     puls    a
@@ -115,37 +121,27 @@ limite_maximo_alcanzado:                         ; Limpiar stack si venimos de l
 
 error_invalido:
     puls    a                           ; Limpiar stack
-    clr     ,y
-    lda     #'                          ; Espacio visual
-    sta     pantalla
     ldx     #mensaje_invalido
     jsr     printStr
     jsr     printBreak
-    ldx     #traduccion                 ; Imprimimos lo que llevábamos bien
-    jsr     printStr
-    bra     salir_linea
+    bra     imprimir_y_salir
 
 error_longitud_real:
-    clr     ,y
     lda     #' 
     sta     pantalla
     ldx     #mensaje_longitud
     jsr     printStr
     jsr     printBreak
-    ldx     #traduccion
-    jsr     printStr
-    bra     salir_linea
+    bra     imprimir_y_salir
+
 
 error_ilegal:
-    clr     ,y
     lda     #' 
     sta     pantalla
     ldx     #mensaje_ilegal
     jsr     printStr
     jsr     printBreak
-    ldx     #traduccion
-    jsr     printStr
-    bra     salir_linea
+    bra     imprimir_y_salir
 
 salir_linea:
     puls    a,b,x,y                     ; Restauramos
