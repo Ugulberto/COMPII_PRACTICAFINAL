@@ -14,9 +14,9 @@ teclado         .equ    0xFF02
 .globl      char_a_morse            ; charMorse.asm
 
 mensaje_inicio:     .asciz  "2.2) Texto a MORSE (Palabra a Palabra):"
-cadena_introducida: .rmb    81
-max_tam:            .byte   #80
-mensaje_max_tam:    .asciz  "\nSe ha excedido el maximo de caracteres (80) y se ha cortado la entrada."
+cadena_introducida: .rmb    101
+max_tam:            .byte   100
+mensaje_max_tam:    .asciz  "\nSe ha excedido el maximo de caracteres (100) y se ha cortado la entrada."
 
 palabra_a_palabra2:
     pshs    a,b,x,y
