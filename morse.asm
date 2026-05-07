@@ -25,7 +25,7 @@ teclado 	.equ 	0xFF02
 	.globl	linea_a_linea3			; submenu3/linea_a_linea.asm
 
 menu0:		
-	.ascii	"\nPractica MORSE. v. 0.2.1\n"
+	.ascii	"\nPractica MORSE. v. 1.0\n"
     .ascii  "\n Menu DE OPCIONES:\n" 
     .ascii	"    1) Ver tabla\n"
     .ascii	"    2) Texto a MORSE\n"
