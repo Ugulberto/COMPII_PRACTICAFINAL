@@ -7,7 +7,8 @@
 <br />
 <br />
 
-__Nota:__ **10.0**.
+__Nota:__ Informe: **10.0**. <br />
+&emsp;&emsp;&ensp;&nbsp;Defensa: **10.0**.
 <br />
 <br />
 
@@ -38,6 +39,37 @@ Se solicita crear un menú funcional con los siguientes submenús y opciones:
 El resto de las indicaciones técnicas se encuentran en el PDF subido a Studium a tal efecto, llamado «Práctica de Computadores II - 2025-26 (MORSE).pdf».
 <br />
 <br />
+
+## Arquitectura del proyecto
+    COMPII_PRACTICAFINAL/            # Root del proyecto
+    │
+    ├─ libraries/                    # Bibliotecas de subrutinas (funciones)
+    │   ├─ charMorse.asm             # Trductor texto <-> Morse
+    │   ├─ stdio.asm                 # Prints e inputs
+    │   └─ stringH.asm               # Cadenas y mayúsculas
+    │
+    ├─ submenu1/                     # Opción 1: Mostrar tabla
+    │   └─ mostrar_tabla.asm         # Impresión por pantalla de la tabla de correspondencias
+    │  
+    ├─ submenu2/                     # Opción 2: Texto a Morse
+    │   ├─ caracter_a_caracter.asm   # 2.1: char length
+    │   ├─ linea_a_linea.asm         # 2.3: \n lenght
+    │   └─ palabra_a_palabra.asm     # 2.2: word lenght
+    │  
+    ├─ submenu3/                     # Opción 3: Morse a texto
+    │   ├─ caracter_a_caracter.asm   # 3.1: char length
+    │   ├─ linea_a_linea.asm         # 3.3: \n lenght
+    │   └─ palabra_a_palabra.asm     # 3.2: word lenght
+    │    
+    ├─ tables/                       # Tablas de caracteres
+    │   ├─ chars_table.asm           # Caracteres ASCII A-Z y 0-9
+    │   ├─ chars_table.inc           # Dependencias globales del archivo anterior
+    │   ├─ morse_table.asm           # Correspondencias ASCII <-> Morse
+    │   └─ morse_table.inc           # Dependencias globales del archivo anterior
+    │  
+    ├─ ensamblar.sh                  # Script de Shell para ejecutar el proyecto
+    ├─ morse.asm                     # Archivo MAIN: menú principal y parrilleo de subrutinas
+    └─ readme.md                     # Guía de lectura del proyecto
 
 ## Ejecución:
 Disponemos de un .sh para facilitar la ejecución del programa. 
