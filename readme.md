@@ -67,6 +67,7 @@ El resto de las indicaciones técnicas se encontraban en el PDF subido a Studium
     │   ├─ morse_table.asm           # Correspondencias ASCII <-> Morse
     │   └─ morse_table.inc           # Dependencias globales del archivo anterior
     │  
+    ├─ informe.pdf                   # Informe final como documentación del proyecto
     ├─ ensamblar.sh                  # Script de Shell para ejecutar el proyecto
     ├─ morse.asm                     # Archivo MAIN: menú principal y parrilleo de subrutinas
     └─ readme.md                     # Guía de lectura del proyecto
