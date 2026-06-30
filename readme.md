@@ -36,7 +36,7 @@ Se solicita crear un menú funcional con los siguientes submenús y opciones:
                     2) Palabra a palabra 
                     3) Linea a linea 
                   V/v) Volver
-El resto de las indicaciones técnicas se encuentran en el PDF subido a Studium a tal efecto, llamado «Práctica de Computadores II - 2025-26 (MORSE).pdf».
+El resto de las indicaciones técnicas se encontraban en el PDF subido a Studium, llamado «Práctica de Computadores II - 2025-26 (MORSE).pdf».
 <br />
 <br />
 
