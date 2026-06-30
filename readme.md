@@ -1,5 +1,5 @@
 # Practica Final Computadores II
-
+1er curso, 2º cuatrimestre. Grado en Ingeniería Informática. Facultad de Ciencias de la Universidad de Salamanca.
 
 *BLANCO DE LA IGLESIA, DAVID*.
 
