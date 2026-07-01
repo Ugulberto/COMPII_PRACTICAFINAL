@@ -3,9 +3,9 @@
 
 <br />
 
-*BLANCO DE LA IGLESIA, DAVID*.
+*BLANCO DE LA IGLESIA, DAVID*. (u/Ugulberto)
 
-*RODRÍGUEZ FERNÁNDEZ, NICOLÁS*.
+*RODRÍGUEZ FERNÁNDEZ, NICOLÁS*. (u/Nico-RF)
 <br />
 <br />
 
